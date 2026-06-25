@@ -20,16 +20,8 @@
             --glass-border: rgba(255, 255, 255, 0.12);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--midnight-blue);
@@ -38,46 +30,50 @@
             line-height: 1.7;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--midnight-blue);
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--midnight-blue); }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, var(--sunset-orange), var(--golden-light));
             border-radius: 3px;
         }
 
-        /* ===== AUDIO CONTROLS ===== */
-        .audio-controls {
+        /* ===== AUDIO PLAYER BAR (BOTTOM FIXED) ===== */
+        .audio-bar {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--glass-bg);
+            background: rgba(11, 19, 43, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 10px 20px;
-            transition: all 0.4s ease;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .audio-controls.visible {
+        .audio-bar.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
+        .audio-bar-inner {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 600px;
+            width: 100%;
+        }
+
         .audio-btn {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
             border: none;
@@ -87,59 +83,102 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
-        .audio-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 145, 77, 0.4);
+        .audio-btn:hover { transform: scale(1.1); }
+        .audio-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+        .audio-song-info {
+            flex: 1;
+            min-width: 0;
         }
 
-        .audio-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        .audio-info {
-            font-size: 0.75rem;
-            color: rgba(248, 249, 250, 0.6);
-            max-width: 120px;
+        .audio-song-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--soft-white);
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+        }
+
+        .audio-song-artist {
+            font-size: 0.7rem;
+            color: rgba(248, 249, 250, 0.5);
+            margin-top: 2px;
+        }
+
+        .audio-progress-area {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 120px;
         }
 
         .audio-progress {
-            width: 60px;
-            height: 3px;
+            width: 100%;
+            height: 4px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
+            position: relative;
         }
 
         .audio-progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--sunset-orange), var(--golden-light));
             width: 0%;
+            border-radius: 4px;
             transition: width 0.1s linear;
         }
 
+        .audio-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: rgba(248, 249, 250, 0.4);
+        }
+
+        .audio-volume-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
         .audio-volume {
-            width: 50px;
-            height: 3px;
+            width: 60px;
+            height: 4px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
             cursor: pointer;
-            position: relative;
         }
 
         .audio-volume-fill {
             height: 100%;
             background: rgba(255, 255, 255, 0.4);
             width: 70%;
+            border-radius: 4px;
+        }
+
+        .audio-chapter-indicator {
+            font-size: 0.65rem;
+            color: var(--sunset-orange);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 600px) {
+            .audio-bar { padding: 10px 12px; }
+            .audio-bar-inner { gap: 10px; }
+            .audio-volume-area { display: none; }
+            .audio-chapter-indicator { display: none; }
         }
 
         /* ===== LANDING PAGE ===== */
@@ -157,10 +196,8 @@
 
         .landing-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(160deg, 
                 var(--midnight-blue) 0%, 
                 var(--ocean-blue) 35%, 
@@ -172,10 +209,8 @@
         .landing-bg::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: 
                 radial-gradient(ellipse at 15% 85%, rgba(255, 145, 77, 0.25) 0%, transparent 55%),
                 radial-gradient(ellipse at 85% 15%, rgba(255, 200, 87, 0.15) 0%, transparent 50%);
@@ -184,18 +219,15 @@
 
         .stars {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 2;
             pointer-events: none;
         }
 
         .star {
             position: absolute;
-            width: 2px;
-            height: 2px;
+            width: 2px; height: 2px;
             background: white;
             border-radius: 50%;
             opacity: 0;
@@ -209,20 +241,16 @@
 
         .wave-container {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 180px;
+            bottom: 0; left: 0;
+            width: 100%; height: 180px;
             z-index: 3;
             overflow: hidden;
         }
 
         .wave {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
+            bottom: 0; left: 0;
+            width: 200%; height: 100%;
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23F8F9FA' fill-opacity='0.04' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
             background-size: 50% 100%;
             animation: wave-move 18s linear infinite;
@@ -304,18 +332,13 @@
         .btn-start::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: left 0.5s;
         }
 
-        .btn-start:hover::before {
-            left: 100%;
-        }
-
+        .btn-start:hover::before { left: 100%; }
         .btn-start:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 35px rgba(255, 145, 77, 0.5);
@@ -353,13 +376,11 @@
             60% { transform: translateX(-50%) translateY(-6px); }
         }
 
-        /* ===== PROGRESS BAR ===== */
+        /* ===== PROGRESS BAR (TOP) ===== */
         .progress-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
             background: rgba(255, 255, 255, 0.04);
             z-index: 1000;
         }
@@ -372,7 +393,7 @@
             box-shadow: 0 0 10px rgba(255, 145, 77, 0.3);
         }
 
-        /* ===== CHAPTER INDICATOR ===== */
+        /* ===== CHAPTER NAVIGATION DOTS ===== */
         .chapter-nav {
             position: fixed;
             right: 25px;
@@ -386,13 +407,10 @@
             transition: opacity 0.5s ease;
         }
 
-        .chapter-nav.visible {
-            opacity: 1;
-        }
+        .chapter-nav.visible { opacity: 1; }
 
         .chapter-dot {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -407,9 +425,7 @@
             transform: scale(1.3);
         }
 
-        .chapter-dot:hover {
-            background: rgba(255, 145, 77, 0.6);
-        }
+        .chapter-dot:hover { background: rgba(255, 145, 77, 0.6); }
 
         .chapter-dot::before {
             content: attr(data-label);
@@ -426,13 +442,9 @@
             letter-spacing: 1px;
         }
 
-        .chapter-dot:hover::before {
-            opacity: 1;
-        }
+        .chapter-dot:hover::before { opacity: 1; }
 
-        @media (max-width: 768px) {
-            .chapter-nav { display: none; }
-        }
+        @media (max-width: 768px) { .chapter-nav { display: none; } }
 
         /* ===== STORY SECTIONS ===== */
         .story-section {
@@ -461,15 +473,8 @@
             }
         }
 
-        .story-content {
-            order: 2;
-        }
-
-        @media (min-width: 768px) {
-            .story-content {
-                order: 1;
-            }
-        }
+        .story-content { order: 2; }
+        @media (min-width: 768px) { .story-content { order: 1; } }
 
         .story-number {
             font-family: 'Cormorant Garamond', serif;
@@ -527,15 +532,8 @@
             line-height: 1;
         }
 
-        .story-visual {
-            order: 1;
-        }
-
-        @media (min-width: 768px) {
-            .story-visual {
-                order: 2;
-            }
-        }
+        .story-visual { order: 1; }
+        @media (min-width: 768px) { .story-visual { order: 2; } }
 
         .visual-card {
             background: var(--glass-bg);
@@ -559,10 +557,8 @@
         .visual-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255, 145, 77, 0.08) 0%, transparent 60%);
             pointer-events: none;
         }
@@ -589,19 +585,15 @@
         }
 
         .album-art img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             z-index: 2;
             transition: transform 0.6s ease;
         }
 
-        .visual-card:hover .album-art img {
-            transform: scale(1.05);
-        }
+        .visual-card:hover .album-art img { transform: scale(1.05); }
 
         .song-title {
             font-family: 'Cormorant Garamond', serif;
@@ -631,9 +623,7 @@
             transition: opacity 0.5s ease;
         }
 
-        .now-playing-indicator.active {
-            opacity: 1;
-        }
+        .now-playing-indicator.active { opacity: 1; }
 
         .bar {
             width: 3px;
@@ -653,18 +643,12 @@
         }
 
         /* Alternate Layouts */
-        .story-section:nth-child(even) .story-content {
-            order: 2;
-        }
-        .story-section:nth-child(even) .story-visual {
-            order: 1;
-        }
+        .story-section:nth-child(even) .story-content { order: 2; }
+        .story-section:nth-child(even) .story-visual { order: 1; }
 
         @media (max-width: 767px) {
             .story-section:nth-child(even) .story-content,
-            .story-section:nth-child(even) .story-visual {
-                order: unset;
-            }
+            .story-section:nth-child(even) .story-visual { order: unset; }
         }
 
         /* ===== FINAL SECTION ===== */
@@ -675,7 +659,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 2rem;
+            padding: 8rem 2rem 10rem;
             position: relative;
             background: linear-gradient(180deg, var(--midnight-blue) 0%, #070c1a 100%);
             overflow: hidden;
@@ -684,10 +668,8 @@
         .final-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: 
                 radial-gradient(ellipse at 50% 100%, rgba(255, 145, 77, 0.12) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 50%, rgba(255, 200, 87, 0.04) 0%, transparent 50%);
@@ -738,7 +720,7 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* ===== DECORATIVE ELEMENTS ===== */
+        /* ===== DECORATIVE ===== */
         .floating-orb {
             position: absolute;
             border-radius: 50%;
@@ -748,20 +730,16 @@
         }
 
         .orb-1 {
-            width: 350px;
-            height: 350px;
+            width: 350px; height: 350px;
             background: rgba(255, 145, 77, 0.12);
-            top: 5%;
-            right: -120px;
+            top: 5%; right: -120px;
             animation: float 22s infinite ease-in-out;
         }
 
         .orb-2 {
-            width: 450px;
-            height: 450px;
+            width: 450px; height: 450px;
             background: rgba(29, 53, 87, 0.35);
-            bottom: 15%;
-            left: -180px;
+            bottom: 15%; left: -180px;
             animation: float 28s infinite ease-in-out reverse;
         }
 
@@ -771,42 +749,24 @@
             66% { transform: translate(-25px, 25px); }
         }
 
-        /* ===== SECTION DIVIDERS ===== */
         .section-divider {
-            width: 100%;
-            height: 1px;
+            width: 100%; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 145, 77, 0.25), transparent);
             margin: 0;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .story-section {
-                padding: 4rem 1.5rem;
-            }
-            .visual-card {
-                padding: 1.5rem;
-            }
-            .final-section {
-                padding: 5rem 1.5rem;
-            }
-            .audio-controls {
-                bottom: 15px;
-                right: 15px;
-                padding: 8px 15px;
-            }
-            .audio-info {
-                display: none;
-            }
+            .story-section { padding: 4rem 1.5rem; }
+            .visual-card { padding: 1.5rem; }
+            .final-section { padding: 5rem 1.5rem 8rem; }
         }
 
-        /* ===== LOADING STATE ===== */
+        /* ===== LOADING ===== */
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: var(--midnight-blue);
             z-index: 9999;
             display: flex;
@@ -842,31 +802,49 @@
         <div class="loading-text">Memuat perjalanan...</div>
     </div>
 
-    <!-- Background Audio (Hidden) -->
-    <audio id="bgMusic" loop preload="auto">
-        <!-- GANTI DENGAN FILE MP3 ANDA -->
-        <source src="music/beabadoobee - Glue Song (Official Music Video) - beabadoobeeVEVO (youtube).mp3" type="audio/mpeg">
-        <!-- Fallback untuk format lain -->
-        <source src="music/background.ogg" type="audio/ogg">
-        Browser Anda tidak mendukung audio HTML5.
-    </audio>
+    <!-- ===== AUDIO BAR (BOTTOM FIXED) ===== -->
+    <div class="audio-bar" id="audioBar">
+        <div class="audio-bar-inner">
+            <button class="audio-btn" id="prevBtn" onclick="prevSong()">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button class="audio-btn" id="playPauseBtn" onclick="togglePlay()">
+                <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <button class="audio-btn" id="nextBtn" onclick="nextSong()">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
 
-    <!-- Audio Controls -->
-    <div class="audio-controls" id="audioControls">
-        <button class="audio-btn" id="playPauseBtn" onclick="toggleMusic()">
-            <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
-        <div class="audio-info" id="audioInfo">Background Music</div>
-        <div class="audio-progress" id="audioProgress" onclick="seekMusic(event)">
-            <div class="audio-progress-fill" id="audioProgressFill"></div>
-        </div>
-        <div class="audio-volume" id="audioVolume" onclick="setVolume(event)">
-            <div class="audio-volume-fill" id="audioVolumeFill"></div>
+            <div class="audio-song-info">
+                <div class="audio-song-title" id="audioTitle">Glue Song</div>
+                <div class="audio-song-artist" id="audioArtist">beabadoobee</div>
+            </div>
+
+            <div class="audio-progress-area">
+                <div class="audio-progress" id="audioProgress" onclick="seekAudio(event)">
+                    <div class="audio-progress-fill" id="audioProgressFill"></div>
+                </div>
+                <div class="audio-time">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+            </div>
+
+            <div class="audio-volume-area">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.5)">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+                <div class="audio-volume" id="audioVolume" onclick="setVolume(event)">
+                    <div class="audio-volume-fill" id="audioVolumeFill"></div>
+                </div>
+            </div>
+
+            <div class="audio-chapter-indicator" id="chapterIndicator">BAB 1 / 10</div>
         </div>
     </div>
 
-    <!-- Progress Bar -->
+    <!-- Progress Bar (Top) -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -903,7 +881,7 @@
                 Sebuah perjalanan yang dimulai dari kenyamanan, tumbuh menjadi harapan, 
                 dan belajar menerima apa pun akhirnya.
             </p>
-            <a href="#chapter1" class="btn-start" onclick="startJourney()">Mulai Perjalanan</a>
+            <a href="#chapter1" class="btn-start" onclick="startJourney(event)">Mulai Perjalanan</a>
         </div>
 
         <div class="scroll-indicator">
@@ -914,7 +892,7 @@
 
     <!-- ===== CHAPTER 1: Glue Song ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter1">
+    <section class="story-section" id="chapter1" data-song="0">
         <div class="floating-orb orb-1"></div>
         <div class="story-container">
             <div class="story-content">
@@ -931,11 +909,8 @@
                     </div>
                     <div class="song-title">Glue Song</div>
                     <div class="song-artist">beabadoobee</div>
-                    <div class="now-playing-indicator" id="indicator-1">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-0">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -945,7 +920,7 @@
 
     <!-- ===== CHAPTER 2: Until I Found You ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter2">
+    <section class="story-section" id="chapter2" data-song="1">
         <div class="floating-orb orb-2"></div>
         <div class="story-container">
             <div class="story-content">
@@ -962,11 +937,8 @@
                     </div>
                     <div class="song-title">Until I Found You</div>
                     <div class="song-artist">Stephen Sanchez</div>
-                    <div class="now-playing-indicator" id="indicator-2">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-1">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -976,7 +948,7 @@
 
     <!-- ===== CHAPTER 3: Turning Page ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter3">
+    <section class="story-section" id="chapter3" data-song="2">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 3</div>
@@ -992,11 +964,8 @@
                     </div>
                     <div class="song-title">Turning Page</div>
                     <div class="song-artist">Sleeping At Last</div>
-                    <div class="now-playing-indicator" id="indicator-3">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-2">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1006,7 +975,7 @@
 
     <!-- ===== CHAPTER 4: Multo ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter4">
+    <section class="story-section" id="chapter4" data-song="3">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 4</div>
@@ -1022,11 +991,8 @@
                     </div>
                     <div class="song-title">Multo</div>
                     <div class="song-artist">Cup of Joe</div>
-                    <div class="now-playing-indicator" id="indicator-4">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-3">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1036,7 +1002,7 @@
 
     <!-- ===== CHAPTER 5: Yellow ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter5">
+    <section class="story-section" id="chapter5" data-song="4">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 5</div>
@@ -1052,11 +1018,8 @@
                     </div>
                     <div class="song-title">Yellow</div>
                     <div class="song-artist">Coldplay</div>
-                    <div class="now-playing-indicator" id="indicator-5">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-4">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1066,7 +1029,7 @@
 
     <!-- ===== CHAPTER 6: Anti-Hero ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter6">
+    <section class="story-section" id="chapter6" data-song="5">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 6</div>
@@ -1082,11 +1045,8 @@
                     </div>
                     <div class="song-title">Anti-Hero</div>
                     <div class="song-artist">Miftar Suganda</div>
-                    <div class="now-playing-indicator" id="indicator-6">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-5">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1096,7 +1056,7 @@
 
     <!-- ===== CHAPTER 7: I Love You So ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter7">
+    <section class="story-section" id="chapter7" data-song="6">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 7</div>
@@ -1112,11 +1072,8 @@
                     </div>
                     <div class="song-title">I Love You So</div>
                     <div class="song-artist">The Walters</div>
-                    <div class="now-playing-indicator" id="indicator-7">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-6">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1126,7 +1083,7 @@
 
     <!-- ===== CHAPTER 8: To The Bone ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter8">
+    <section class="story-section" id="chapter8" data-song="7">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 8</div>
@@ -1142,11 +1099,8 @@
                     </div>
                     <div class="song-title">To The Bone</div>
                     <div class="song-artist">Pamungkas</div>
-                    <div class="now-playing-indicator" id="indicator-8">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-7">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1156,7 +1110,7 @@
 
     <!-- ===== CHAPTER 9: Let It All Go ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter9">
+    <section class="story-section" id="chapter9" data-song="8">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 9</div>
@@ -1172,11 +1126,8 @@
                     </div>
                     <div class="song-title">Let It All Go</div>
                     <div class="song-artist">Birdy & Rhodes</div>
-                    <div class="now-playing-indicator" id="indicator-9">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-8">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1186,7 +1137,7 @@
 
     <!-- ===== CHAPTER 10: Saturn ===== -->
     <div class="section-divider"></div>
-    <section class="story-section" id="chapter10">
+    <section class="story-section" id="chapter10" data-song="9">
         <div class="story-container">
             <div class="story-content">
                 <div class="story-number">Bab 10</div>
@@ -1202,11 +1153,8 @@
                     </div>
                     <div class="song-title">Saturn</div>
                     <div class="song-artist">SZA</div>
-                    <div class="now-playing-indicator" id="indicator-10">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+                    <div class="now-playing-indicator" id="indicator-9">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <span>Sedang Diputar</span>
                     </div>
                 </div>
@@ -1241,83 +1189,109 @@
         // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger);
 
-        // ===== AUDIO SYSTEM =====
-        const audio = document.getElementById('bgMusic');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const audioProgressFill = document.getElementById('audioProgressFill');
-        const audioVolumeFill = document.getElementById('audioVolumeFill');
-        const audioControls = document.getElementById('audioControls');
+        // ===== PLAYLIST DATA =====
+        // GANTI DENGAN FILE MP3 ANDA
+        const playlist = [
+            { title: "Glue Song", artist: "beabadoobee", file: "music/01-glue-song.mp3" },
+            { title: "Until I Found You", artist: "Stephen Sanchez", file: "music/02-until-i-found-you.mp3" },
+            { title: "Turning Page", artist: "Sleeping At Last", file: "music/03-turning-page.mp3" },
+            { title: "Multo", artist: "Cup of Joe", file: "music/04-multo.mp3" },
+            { title: "Yellow", artist: "Coldplay", file: "music/05-yellow.mp3" },
+            { title: "Anti-Hero", artist: "Miftar Suganda", file: "music/06-anti-hero.mp3" },
+            { title: "I Love You So", artist: "The Walters", file: "music/07-i-love-you-so.mp3" },
+            { title: "To The Bone", artist: "Pamungkas", file: "music/08-to-the-bone.mp3" },
+            { title: "Let It All Go", artist: "Birdy & Rhodes", file: "music/09-let-it-all-go.mp3" },
+            { title: "Saturn", artist: "SZA", file: "music/10-saturn.mp3" }
+        ];
+
+        let currentSongIndex = 0;
+        let audio = new Audio();
         let isPlaying = false;
         let musicStarted = false;
 
-        // Volume default 70%
+        // Audio settings
         audio.volume = 0.7;
 
-        function toggleMusic() {
+        // ===== AUDIO PLAYER FUNCTIONS =====
+        function loadSong(index) {
+            currentSongIndex = index;
+            audio.src = playlist[index].file;
+            updateAudioInfo();
+            updateNowPlayingIndicators();
+            if (isPlaying) {
+                audio.play().catch(err => console.log('Play error:', err));
+            }
+        }
+
+        function updateAudioInfo() {
+            const song = playlist[currentSongIndex];
+            document.getElementById('audioTitle').textContent = song.title;
+            document.getElementById('audioArtist').textContent = song.artist;
+            document.getElementById('chapterIndicator').textContent = `BAB ${currentSongIndex + 1} / 10`;
+        }
+
+        function togglePlay() {
+            if (!musicStarted) {
+                loadSong(0);
+                musicStarted = true;
+            }
             if (audio.paused) {
                 audio.play().then(() => {
                     isPlaying = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                    updateNowPlayingIndicators(true);
-                }).catch(err => {
-                    console.log('Audio play failed:', err);
-                });
+                    document.getElementById('playIcon').style.display = 'none';
+                    document.getElementById('pauseIcon').style.display = 'block';
+                    updateNowPlayingIndicators();
+                }).catch(err => console.log('Play blocked:', err));
             } else {
                 audio.pause();
                 isPlaying = false;
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-                updateNowPlayingIndicators(false);
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+                updateNowPlayingIndicators();
             }
         }
 
-        function startJourney() {
-            // Mulai musik saat tombol "Mulai Perjalanan" diklik
-            if (!musicStarted) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicStarted = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                    updateNowPlayingIndicators(true);
-                    audioControls.classList.add('visible');
-                }).catch(err => {
-                    console.log('Autoplay blocked, user interaction needed');
-                    audioControls.classList.add('visible');
-                });
-            }
+        function nextSong() {
+            let next = currentSongIndex + 1;
+            if (next >= playlist.length) next = 0;
+            loadSong(next);
+            if (!isPlaying) togglePlay();
         }
 
-        // Auto-play saat user pertama kali interaksi (scroll/click)
-        let autoPlayTriggered = false;
-        function tryAutoPlay() {
-            if (!autoPlayTriggered && !musicStarted) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicStarted = true;
-                    autoPlayTriggered = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                    updateNowPlayingIndicators(true);
-                    audioControls.classList.add('visible');
-                }).catch(() => {
-                    // Browser memblok autoplay, tunggu interaksi user
-                    audioControls.classList.add('visible');
-                });
-            }
+        function prevSong() {
+            let prev = currentSongIndex - 1;
+            if (prev < 0) prev = playlist.length - 1;
+            loadSong(prev);
+            if (!isPlaying) togglePlay();
         }
 
-        // Update progress bar
-        audio.addEventListener('timeupdate', () => {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            audioProgressFill.style.width = progress + '%';
+        function updateNowPlayingIndicators() {
+            document.querySelectorAll('.now-playing-indicator').forEach((ind, i) => {
+                ind.classList.toggle('active', i === currentSongIndex && isPlaying);
+            });
+        }
+
+        // Auto-advance to next song
+        audio.addEventListener('ended', () => {
+            nextSong();
         });
 
-        // Seek music
-        function seekMusic(e) {
+        // Update progress
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('audioProgressFill').style.width = progress + '%';
+            document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+            document.getElementById('totalTime').textContent = formatTime(audio.duration || 0);
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function seekAudio(e) {
             const rect = e.currentTarget.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             const width = rect.width;
@@ -1325,37 +1299,62 @@
             audio.currentTime = seekTime;
         }
 
-        // Set volume
         function setVolume(e) {
             const rect = e.currentTarget.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             const width = rect.width;
-            const volume = clickX / width;
+            const volume = Math.max(0, Math.min(1, clickX / width));
             audio.volume = volume;
-            audioVolumeFill.style.width = (volume * 100) + '%';
+            document.getElementById('audioVolumeFill').style.width = (volume * 100) + '%';
         }
 
-        // Update "Sedang Diputar" indicators
-        function updateNowPlayingIndicators(playing) {
-            document.querySelectorAll('.now-playing-indicator').forEach(ind => {
-                ind.classList.toggle('active', playing);
+        // ===== SCROLL-BASED SONG SWITCHING =====
+        // Saat user scroll ke chapter tertentu, lagu otomatis berpindah
+        document.querySelectorAll('.story-section[data-song]').forEach(section => {
+            const songIndex = parseInt(section.dataset.song);
+
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 60%',
+                end: 'bottom 40%',
+                onEnter: () => {
+                    if (musicStarted && currentSongIndex !== songIndex) {
+                        loadSong(songIndex);
+                    }
+                },
+                onEnterBack: () => {
+                    if (musicStarted && currentSongIndex !== songIndex) {
+                        loadSong(songIndex);
+                    }
+                }
             });
-        }
-
-        // Audio ended
-        audio.addEventListener('ended', () => {
-            isPlaying = false;
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-            updateNowPlayingIndicators(false);
         });
+
+        // ===== START JOURNEY =====
+        function startJourney(e) {
+            e.preventDefault();
+            document.getElementById('audioBar').classList.add('visible');
+
+            if (!musicStarted) {
+                loadSong(0);
+                musicStarted = true;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('playIcon').style.display = 'none';
+                    document.getElementById('pauseIcon').style.display = 'block';
+                    updateNowPlayingIndicators();
+                }).catch(err => {
+                    console.log('Autoplay blocked, click play manually');
+                });
+            }
+
+            document.getElementById('chapter1').scrollIntoView({ behavior: 'smooth' });
+        }
 
         // ===== LOADING OVERLAY =====
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingOverlay').classList.add('hidden');
-                // Coba autoplay setelah loading
-                tryAutoPlay();
             }, 1000);
         });
 
@@ -1432,7 +1431,7 @@
         });
 
         // ===== STORY SECTION ANIMATIONS =====
-        document.querySelectorAll('.story-section').forEach((section, index) => {
+        document.querySelectorAll('.story-section').forEach((section) => {
             const number = section.querySelector('.story-number');
             const title = section.querySelector('.story-title');
             const narrative = section.querySelector('.story-narrative');
@@ -1455,7 +1454,7 @@
 
         // ===== FINAL SECTION ANIMATIONS =====
         const finalTexts = document.querySelectorAll('.final-text p');
-        finalTexts.forEach((text, i) => {
+        finalTexts.forEach((text) => {
             gsap.to(text, {
                 opacity: 1,
                 y: 0,
@@ -1505,7 +1504,7 @@
             });
         });
 
-        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        // ===== SMOOTH SCROLL =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1516,12 +1515,7 @@
             });
         });
 
-        // ===== FIRST INTERACTION AUTOPLAY =====
-        document.addEventListener('click', tryAutoPlay, { once: true });
-        document.addEventListener('scroll', tryAutoPlay, { once: true });
-        document.addEventListener('keydown', tryAutoPlay, { once: true });
-
-        console.log('Journey Through My Feelings - Ready');
+        console.log('Journey Through My Feelings - 10 Songs Ready');
     </script>
 </body>
 </html>
