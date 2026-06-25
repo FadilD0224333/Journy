@@ -50,6 +50,98 @@
             border-radius: 3px;
         }
 
+        /* ===== AUDIO CONTROLS ===== */
+        .audio-controls {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .audio-controls.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .audio-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
+            border: none;
+            color: var(--midnight-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 145, 77, 0.4);
+        }
+
+        .audio-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .audio-info {
+            font-size: 0.75rem;
+            color: rgba(248, 249, 250, 0.6);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .audio-progress {
+            width: 60px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .audio-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sunset-orange), var(--golden-light));
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .audio-volume {
+            width: 50px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .audio-volume-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            width: 70%;
+        }
+
         /* ===== LANDING PAGE ===== */
         .landing {
             height: 100vh;
@@ -90,7 +182,6 @@
             z-index: 2;
         }
 
-        /* Animated Stars */
         .stars {
             position: absolute;
             top: 0;
@@ -116,7 +207,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Wave Animation */
         .wave-container {
             position: absolute;
             bottom: 0;
@@ -437,17 +527,17 @@
             line-height: 1;
         }
 
-        .story-player {
+        .story-visual {
             order: 1;
         }
 
         @media (min-width: 768px) {
-            .story-player {
+            .story-visual {
                 order: 2;
             }
         }
 
-        .player-card {
+        .visual-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -461,12 +551,12 @@
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .player-card:hover {
+        .visual-card:hover {
             transform: translateY(-5px) scale(1.01);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        .player-card::before {
+        .visual-card::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -485,7 +575,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.8rem;
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -510,7 +599,7 @@
             transition: transform 0.6s ease;
         }
 
-        .player-card:hover .album-art img {
+        .visual-card:hover .album-art img {
             transform: scale(1.05);
         }
 
@@ -519,90 +608,61 @@
             font-size: 1.6rem;
             font-weight: 600;
             color: var(--soft-white);
+            margin-top: 1.5rem;
             margin-bottom: 0.3rem;
         }
 
         .song-artist {
             font-size: 0.85rem;
             color: rgba(248, 249, 250, 0.45);
-            margin-bottom: 1.2rem;
             letter-spacing: 0.5px;
         }
 
-        .youtube-embed-container {
-            width: 100%;
-            border-radius: 14px;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.2);
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-
-        .youtube-embed-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .youtube-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .now-playing-indicator {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(29, 53, 87, 0.8), rgba(11, 19, 43, 0.9));
-            cursor: pointer;
-            transition: all 0.3s ease;
+            gap: 6px;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: var(--sunset-orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .youtube-placeholder:hover {
-            background: linear-gradient(135deg, rgba(29, 53, 87, 0.9), rgba(11, 19, 43, 1));
+        .now-playing-indicator.active {
+            opacity: 1;
         }
 
-        .play-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--midnight-blue);
-            font-size: 1.4rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(255, 145, 77, 0.4);
+        .bar {
+            width: 3px;
+            height: 12px;
+            background: var(--sunset-orange);
+            border-radius: 2px;
+            animation: sound-bar 1s ease-in-out infinite;
         }
 
-        .youtube-placeholder:hover .play-icon {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(255, 145, 77, 0.6);
-        }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
 
-        .play-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-            margin-left: 3px;
+        @keyframes sound-bar {
+            0%, 100% { height: 8px; }
+            50% { height: 16px; }
         }
 
         /* Alternate Layouts */
         .story-section:nth-child(even) .story-content {
             order: 2;
         }
-        .story-section:nth-child(even) .story-player {
+        .story-section:nth-child(even) .story-visual {
             order: 1;
         }
 
         @media (max-width: 767px) {
             .story-section:nth-child(even) .story-content,
-            .story-section:nth-child(even) .story-player {
+            .story-section:nth-child(even) .story-visual {
                 order: unset;
             }
         }
@@ -724,11 +784,19 @@
             .story-section {
                 padding: 4rem 1.5rem;
             }
-            .player-card {
+            .visual-card {
                 padding: 1.5rem;
             }
             .final-section {
                 padding: 5rem 1.5rem;
+            }
+            .audio-controls {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px 15px;
+            }
+            .audio-info {
+                display: none;
             }
         }
 
@@ -774,6 +842,30 @@
         <div class="loading-text">Memuat perjalanan...</div>
     </div>
 
+    <!-- Background Audio (Hidden) -->
+    <audio id="bgMusic" loop preload="auto">
+        <!-- GANTI DENGAN FILE MP3 ANDA -->
+        <source src="music/background.mp3" type="audio/mpeg">
+        <!-- Fallback untuk format lain -->
+        <source src="music/background.ogg" type="audio/ogg">
+        Browser Anda tidak mendukung audio HTML5.
+    </audio>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls" id="audioControls">
+        <button class="audio-btn" id="playPauseBtn" onclick="toggleMusic()">
+            <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <div class="audio-info" id="audioInfo">Background Music</div>
+        <div class="audio-progress" id="audioProgress" onclick="seekMusic(event)">
+            <div class="audio-progress-fill" id="audioProgressFill"></div>
+        </div>
+        <div class="audio-volume" id="audioVolume" onclick="setVolume(event)">
+            <div class="audio-volume-fill" id="audioVolumeFill"></div>
+        </div>
+    </div>
+
     <!-- Progress Bar -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
@@ -811,7 +903,7 @@
                 Sebuah perjalanan yang dimulai dari kenyamanan, tumbuh menjadi harapan, 
                 dan belajar menerima apa pun akhirnya.
             </p>
-            <a href="#chapter1" class="btn-start">Mulai Perjalanan</a>
+            <a href="#chapter1" class="btn-start" onclick="startJourney()">Mulai Perjalanan</a>
         </div>
 
         <div class="scroll-indicator">
@@ -832,19 +924,19 @@
                     Semuanya terasa sederhana. Namun perlahan, kehadiranmu menjadi bagian dari hari-hariku.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=400&fit=crop" alt="Glue Song" loading="lazy">
                     </div>
                     <div class="song-title">Glue Song</div>
                     <div class="song-artist">beabadoobee</div>
-                    <div class="youtube-embed-container" data-video="y1cBhJLNNXU">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'y1cBhJLNNXU')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-1">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -863,19 +955,19 @@
                     Aku mulai merasa bahwa kamu berbeda dari yang lain.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=400&fit=crop" alt="Until I Found You" loading="lazy">
                     </div>
                     <div class="song-title">Until I Found You</div>
                     <div class="song-artist">Stephen Sanchez</div>
-                    <div class="youtube-embed-container" data-video="GhQxrCrVSyw">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'GhQxrCrVSyw')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-2">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -893,19 +985,19 @@
                     Perasaan itu tumbuh tanpa kusadari.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Turning Page" loading="lazy">
                     </div>
                     <div class="song-title">Turning Page</div>
                     <div class="song-artist">Sleeping At Last</div>
-                    <div class="youtube-embed-container" data-video="-hb2tecD13s">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, '-hb2tecD13s')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-3">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -923,19 +1015,19 @@
                     Aku mulai takut kehilangan seseorang yang bahkan belum sepenuhnya kumiliki.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=400&fit=crop" alt="Multo" loading="lazy">
                     </div>
                     <div class="song-title">Multo</div>
                     <div class="song-artist">Cup of Joe</div>
-                    <div class="youtube-embed-container" data-video="Rht8rS4cR1s">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'Rht8rS4cR1s')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-4">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -953,19 +1045,19 @@
                     Di mataku, kamu selalu memiliki cahaya yang berbeda.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=400&h=400&fit=crop" alt="Yellow" loading="lazy">
                     </div>
                     <div class="song-title">Yellow</div>
                     <div class="song-artist">Coldplay</div>
-                    <div class="youtube-embed-container" data-video="yKNxeF4KMsY">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'yKNxeF4KMsY')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-5">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -983,19 +1075,19 @@
                     Aku mulai mempertanyakan diriku sendiri dan segala kekuranganku.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop" alt="Anti-Hero" loading="lazy">
                     </div>
                     <div class="song-title">Anti-Hero</div>
                     <div class="song-artist">Miftar Suganda</div>
-                    <div class="youtube-embed-container" data-video="07qofDUkU3s">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, '07qofDUkU3s')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-6">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -1013,19 +1105,19 @@
                     Perasaan itu tetap ada meskipun tidak selalu memiliki kepastian.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1504198266287-1659872e6590?w=400&h=400&fit=crop" alt="I Love You So" loading="lazy">
                     </div>
                     <div class="song-title">I Love You So</div>
                     <div class="song-artist">The Walters</div>
-                    <div class="youtube-embed-container" data-video="NwFVSclD_uc">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'NwFVSclD_uc')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-7">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -1043,19 +1135,19 @@
                     Aku menyayangimu lebih dalam daripada yang mampu kujelaskan.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&h=400&fit=crop" alt="To The Bone" loading="lazy">
                     </div>
                     <div class="song-title">To The Bone</div>
                     <div class="song-artist">Pamungkas</div>
-                    <div class="youtube-embed-container" data-video="oIYWenB637c">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'oIYWenB637c')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-8">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -1073,19 +1165,19 @@
                     Jika memang harus melepaskan, aku ingin melakukannya dengan hati yang baik.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=400&fit=crop" alt="Let It All Go" loading="lazy">
                     </div>
                     <div class="song-title">Let It All Go</div>
                     <div class="song-artist">Birdy & Rhodes</div>
-                    <div class="youtube-embed-container" data-video="6u0DGIh3wLA">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, '6u0DGIh3wLA')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-9">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -1103,19 +1195,19 @@
                     Apa pun akhirnya, aku tetap bersyukur pernah mengenalmu.
                 </p>
             </div>
-            <div class="story-player">
-                <div class="player-card">
+            <div class="story-visual">
+                <div class="visual-card">
                     <div class="album-art">
                         <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&h=400&fit=crop" alt="Saturn" loading="lazy">
                     </div>
                     <div class="song-title">Saturn</div>
                     <div class="song-artist">SZA</div>
-                    <div class="youtube-embed-container" data-video="V2G8ESoDXm8">
-                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'V2G8ESoDXm8')">
-                            <div class="play-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
+                    <div class="now-playing-indicator" id="indicator-10">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <span>Sedang Diputar</span>
                     </div>
                 </div>
             </div>
@@ -1149,11 +1241,122 @@
         // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger);
 
+        // ===== AUDIO SYSTEM =====
+        const audio = document.getElementById('bgMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const audioProgressFill = document.getElementById('audioProgressFill');
+        const audioVolumeFill = document.getElementById('audioVolumeFill');
+        const audioControls = document.getElementById('audioControls');
+        let isPlaying = false;
+        let musicStarted = false;
+
+        // Volume default 70%
+        audio.volume = 0.7;
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                    updateNowPlayingIndicators(true);
+                }).catch(err => {
+                    console.log('Audio play failed:', err);
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                updateNowPlayingIndicators(false);
+            }
+        }
+
+        function startJourney() {
+            // Mulai musik saat tombol "Mulai Perjalanan" diklik
+            if (!musicStarted) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicStarted = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                    updateNowPlayingIndicators(true);
+                    audioControls.classList.add('visible');
+                }).catch(err => {
+                    console.log('Autoplay blocked, user interaction needed');
+                    audioControls.classList.add('visible');
+                });
+            }
+        }
+
+        // Auto-play saat user pertama kali interaksi (scroll/click)
+        let autoPlayTriggered = false;
+        function tryAutoPlay() {
+            if (!autoPlayTriggered && !musicStarted) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicStarted = true;
+                    autoPlayTriggered = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                    updateNowPlayingIndicators(true);
+                    audioControls.classList.add('visible');
+                }).catch(() => {
+                    // Browser memblok autoplay, tunggu interaksi user
+                    audioControls.classList.add('visible');
+                });
+            }
+        }
+
+        // Update progress bar
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            audioProgressFill.style.width = progress + '%';
+        });
+
+        // Seek music
+        function seekMusic(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const seekTime = (clickX / width) * audio.duration;
+            audio.currentTime = seekTime;
+        }
+
+        // Set volume
+        function setVolume(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const volume = clickX / width;
+            audio.volume = volume;
+            audioVolumeFill.style.width = (volume * 100) + '%';
+        }
+
+        // Update "Sedang Diputar" indicators
+        function updateNowPlayingIndicators(playing) {
+            document.querySelectorAll('.now-playing-indicator').forEach(ind => {
+                ind.classList.toggle('active', playing);
+            });
+        }
+
+        // Audio ended
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            updateNowPlayingIndicators(false);
+        });
+
         // ===== LOADING OVERLAY =====
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingOverlay').classList.add('hidden');
-            }, 800);
+                // Coba autoplay setelah loading
+                tryAutoPlay();
+            }, 1000);
         });
 
         // ===== CREATE STARS =====
@@ -1172,7 +1375,7 @@
         }
 
         // ===== LANDING ANIMATIONS =====
-        const landingTl = gsap.timeline({ delay: 1 });
+        const landingTl = gsap.timeline({ delay: 1.2 });
         landingTl
             .to('.landing-title', { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' })
             .to('.landing-subtitle', { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' }, '-=0.8')
@@ -1196,7 +1399,6 @@
         const dots = document.querySelectorAll('.chapter-dot');
         const sections = ['landing', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'chapter6', 'chapter7', 'chapter8', 'chapter9', 'chapter10', 'final'];
 
-        // Show nav after scrolling past landing
         ScrollTrigger.create({
             trigger: '#chapter1',
             start: 'top center',
@@ -1204,7 +1406,6 @@
             onLeaveBack: () => chapterNav.classList.remove('visible')
         });
 
-        // Update active dot
         sections.forEach((id, index) => {
             ScrollTrigger.create({
                 trigger: `#${id}`,
@@ -1221,7 +1422,6 @@
             });
         }
 
-        // Click to navigate
         dots.forEach(dot => {
             dot.addEventListener('click', () => {
                 const target = document.getElementById(dot.dataset.target);
@@ -1236,7 +1436,7 @@
             const number = section.querySelector('.story-number');
             const title = section.querySelector('.story-title');
             const narrative = section.querySelector('.story-narrative');
-            const player = section.querySelector('.player-card');
+            const visual = section.querySelector('.visual-card');
 
             const tl = gsap.timeline({
                 scrollTrigger: {
@@ -1250,7 +1450,7 @@
             tl.to(number, { opacity: 1, duration: 0.7, ease: 'power2.out' })
               .to(title, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5')
               .to(narrative, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
-              .to(player, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.7');
+              .to(visual, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.7');
         });
 
         // ===== FINAL SECTION ANIMATIONS =====
@@ -1316,28 +1516,10 @@
             });
         });
 
-        // ===== YOUTUBE LAZY LOADING =====
-        function loadYouTube(placeholder, videoId) {
-            const container = placeholder.parentElement;
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.frameBorder = '0';
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-            iframe.allowFullscreen = true;
-            iframe.style.position = 'absolute';
-            iframe.style.top = '0';
-            iframe.style.left = '0';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-
-            placeholder.style.opacity = '0';
-            setTimeout(() => {
-                placeholder.remove();
-                container.appendChild(iframe);
-            }, 300);
-        }
+        // ===== FIRST INTERACTION AUTOPLAY =====
+        document.addEventListener('click', tryAutoPlay, { once: true });
+        document.addEventListener('scroll', tryAutoPlay, { once: true });
+        document.addEventListener('keydown', tryAutoPlay, { once: true });
 
         console.log('Journey Through My Feelings - Ready');
     </script>
