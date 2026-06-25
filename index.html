@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journey Through My Feelings</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <style>
         :root {
             --sunset-orange: #FF914D;
@@ -12,7 +17,8 @@
             --ocean-blue: #1D3557;
             --midnight-blue: #0B132B;
             --soft-white: #F8F9FA;
-            --cream: #FFF8F0;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -27,84 +33,98 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--midnight-blue);
+            background-color: var(--midnight-blue);
             color: var(--soft-white);
             overflow-x: hidden;
+            line-height: 1.7;
         }
 
-        /* Scrollbar */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
             background: var(--midnight-blue);
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--sunset-orange);
-            border-radius: 4px;
+            background: linear-gradient(180deg, var(--sunset-orange), var(--golden-light));
+            border-radius: 3px;
         }
 
         /* ===== LANDING PAGE ===== */
         .landing {
-            min-height: 100vh;
+            height: 100vh;
+            width: 100%;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
-            background: linear-gradient(180deg, 
-                #2d1b4e 0%, 
-                #1a0f2e 20%,
-                #0B132B 50%,
-                #1D3557 80%,
-                #FF914D 100%);
             overflow: hidden;
         }
 
-        .landing::before {
+        .landing-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                var(--midnight-blue) 0%, 
+                var(--ocean-blue) 40%, 
+                #2a4066 70%, 
+                #3d5a80 100%);
+            z-index: 1;
+        }
+
+        .landing-bg::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(ellipse at 50% 100%, rgba(255,145,77,0.3) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(255,200,87,0.15) 0%, transparent 50%);
-            pointer-events: none;
+                radial-gradient(ellipse at 20% 80%, rgba(255, 145, 77, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 200, 87, 0.2) 0%, transparent 50%);
+            z-index: 2;
         }
 
-        /* Stars */
+        /* Animated Stars */
         .stars {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 60%;
+            height: 100%;
+            z-index: 2;
             pointer-events: none;
         }
 
         .star {
             position: absolute;
+            width: 2px;
+            height: 2px;
             background: white;
             border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
             opacity: 0;
+            animation: twinkle 3s infinite ease-in-out;
         }
 
         @keyframes twinkle {
             0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: var(--opacity); transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Ocean waves at bottom */
-        .ocean {
+        /* Wave Animation at Bottom */
+        .wave-container {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 200px;
+            height: 150px;
+            z-index: 3;
             overflow: hidden;
         }
 
@@ -114,22 +134,16 @@
             left: 0;
             width: 200%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%231D3557' fill-opacity='0.6' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23F8F9FA' fill-opacity='0.05' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
             background-size: 50% 100%;
-            animation: wave-move 8s linear infinite;
+            animation: wave-move 15s linear infinite;
         }
 
         .wave:nth-child(2) {
-            bottom: 10px;
             opacity: 0.5;
-            animation-duration: 12s;
+            animation-duration: 20s;
             animation-direction: reverse;
-        }
-
-        .wave:nth-child(3) {
-            bottom: 20px;
-            opacity: 0.3;
-            animation-duration: 16s;
+            bottom: 10px;
         }
 
         @keyframes wave-move {
@@ -140,379 +154,315 @@
         .landing-content {
             position: relative;
             z-index: 10;
-            padding: 2rem;
-            max-width: 800px;
+            max-width: 700px;
+            padding: 0 2rem;
         }
 
-        .landing h1 {
-            font-family: 'Playfair Display', serif;
+        .landing-title {
+            font-family: 'Cormorant Garamond', serif;
             font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 700;
-            color: var(--golden-light);
-            text-shadow: 0 0 40px rgba(255,200,87,0.3);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--soft-white);
             margin-bottom: 1.5rem;
             opacity: 0;
             transform: translateY(30px);
-            animation: fadeInUp 1.2s ease forwards 0.3s;
-            letter-spacing: -0.02em;
+            letter-spacing: 1px;
         }
 
-        .landing .subtitle {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: rgba(248,249,250,0.8);
-            line-height: 1.8;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.2s ease forwards 0.6s;
+        .landing-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
             font-weight: 300;
+            color: rgba(248, 249, 250, 0.75);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .btn-start {
             display: inline-block;
-            padding: 16px 48px;
-            background: linear-gradient(135deg, var(--sunset-orange), #FF6B35);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
+            color: var(--midnight-blue);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
             border: none;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 40px rgba(255,145,77,0.4);
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.2s ease forwards 0.9s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-start::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-start:hover::before {
-            left: 100%;
+            transform: translateY(20px);
+            box-shadow: 0 4px 20px rgba(255, 145, 77, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .btn-start:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(255,145,77,0.5);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(255, 145, 77, 0.5);
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
-            bottom: 220px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+            z-index: 10;
             opacity: 0;
-            animation: fadeIn 1s ease forwards 1.5s;
+            animation: bounce 2s infinite;
         }
 
         .scroll-indicator span {
-            font-size: 0.75rem;
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--golden-light), transparent);
+            margin: 0 auto;
+        }
+
+        .scroll-indicator p {
+            font-size: 0.7rem;
+            color: rgba(248, 249, 250, 0.5);
+            margin-top: 8px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
         }
 
-        .scroll-indicator .mouse {
-            width: 24px;
-            height: 40px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .scroll-indicator .mouse::after {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 8px;
-            background: var(--golden-light);
-            border-radius: 2px;
-            animation: scroll-wheel 2s ease infinite;
-        }
-
-        @keyframes scroll-wheel {
-            0%, 100% { opacity: 1; top: 8px; }
-            50% { opacity: 0.3; top: 20px; }
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
 
         /* ===== PROGRESS BAR ===== */
-        .progress-section {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(11, 19, 43, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-bottom: 1px solid rgba(255,145,77,0.1);
-        }
-
         .progress-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1000;
         }
 
         .progress-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-
-        .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.1);
-            transition: all 0.5s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .progress-dot.active {
-            background: var(--sunset-orange);
-            border-color: var(--golden-light);
-            box-shadow: 0 0 15px rgba(255,145,77,0.5);
-            transform: scale(1.3);
-        }
-
-        .progress-dot.completed {
-            background: var(--golden-light);
-            border-color: var(--golden-light);
-        }
-
-        .progress-dot:hover::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--ocean-blue);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            animation: tooltipFade 0.3s ease forwards;
-        }
-
-        @keyframes tooltipFade {
-            to { opacity: 1; }
-        }
-
-        .progress-line {
-            width: 30px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            transition: background 0.5s ease;
-        }
-
-        .progress-line.completed {
-            background: var(--golden-light);
-        }
-
-        .progress-text {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 2px;
-        }
-
-        .progress-text span {
-            color: var(--sunset-orange);
-            font-weight: 600;
+            height: 100%;
+            background: linear-gradient(90deg, var(--sunset-orange), var(--golden-light));
+            width: 0%;
+            transition: width 0.1s ease-out;
         }
 
         /* ===== STORY SECTIONS ===== */
-        .story-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .chapter {
+        .story-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 80px 0;
+            padding: 6rem 2rem;
             position: relative;
+            overflow: hidden;
         }
 
-        .chapter-card {
-            background: linear-gradient(145deg, rgba(29,53,87,0.6), rgba(11,19,43,0.8));
-            border-radius: 24px;
-            padding: 50px 40px;
+        .story-container {
+            max-width: 900px;
             width: 100%;
-            max-width: 700px;
-            border: 1px solid rgba(255,145,77,0.1);
-            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .story-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .story-content {
+            order: 2;
+        }
+
+        @media (min-width: 768px) {
+            .story-content {
+                order: 1;
+            }
+        }
+
+        .story-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--sunset-orange);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+        }
+
+        .story-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            color: var(--soft-white);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .story-narrative {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(248, 249, 250, 0.7);
+            line-height: 1.9;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(20px);
+            border-left: 2px solid rgba(255, 145, 77, 0.3);
+            padding-left: 1.5rem;
+        }
+
+        .story-player {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .story-player {
+                order: 2;
+            }
+        }
+
+        .player-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(60px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px) scale(0.95);
         }
 
-        .chapter-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .chapter-card::before {
+        .player-card::before {
             content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 145, 77, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .album-art {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--ocean-blue), var(--midnight-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-art::after {
+            content: '♪';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--sunset-orange), var(--golden-light));
-            opacity: 0.6;
         }
 
-        .chapter-number {
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--sunset-orange);
-            margin-bottom: 20px;
+        .song-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
             font-weight: 600;
+            color: var(--soft-white);
+            margin-bottom: 0.3rem;
         }
 
-        .chapter-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: var(--golden-light);
-            margin-bottom: 30px;
-            line-height: 1.3;
+        .song-artist {
+            font-size: 0.85rem;
+            color: rgba(248, 249, 250, 0.5);
+            margin-bottom: 1.5rem;
         }
 
-        .chapter-narrative {
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            line-height: 2;
-            color: rgba(248,249,250,0.85);
-            margin-bottom: 35px;
-            font-weight: 300;
-            font-style: italic;
-            border-left: 3px solid rgba(255,145,77,0.3);
-            padding-left: 25px;
-        }
-
-        /* Music Player */
-        .music-player {
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .player-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .album-cover {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--sunset-orange), var(--ocean-blue));
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
+            border: none;
+            color: var(--midnight-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
         }
 
-        .track-info h4 {
-            font-size: 1rem;
-            color: var(--soft-white);
-            margin-bottom: 4px;
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 145, 77, 0.4);
         }
 
-        .track-info p {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
+        .spotify-embed-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
         }
 
-        .spotify-embed {
+        .spotify-embed-container iframe {
             width: 100%;
             height: 80px;
-            border-radius: 12px;
             border: none;
-            margin-top: 10px;
         }
 
-        /* Decorative elements */
-        .decoration {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.1;
-            font-size: 8rem;
+        /* Alternate Layouts */
+        .story-section:nth-child(even) .story-content {
+            order: 2;
+        }
+        .story-section:nth-child(even) .story-player {
+            order: 1;
         }
 
-        .chapter:nth-child(odd) .decoration {
-            right: -30px;
-            top: 20px;
+        @media (max-width: 767px) {
+            .story-section:nth-child(even) .story-content,
+            .story-section:nth-child(even) .story-player {
+                order: unset;
+            }
         }
 
-        .chapter:nth-child(even) .decoration {
-            left: -30px;
-            bottom: 20px;
-        }
-
-        /* ===== FINAL STORY SECTION ===== */
+        /* ===== FINAL SECTION ===== */
         .final-section {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem;
             position: relative;
-            background: linear-gradient(180deg, 
-                var(--midnight-blue) 0%,
-                #0f1a3a 30%,
-                #1D3557 60%,
-                #0B132B 100%);
+            background: linear-gradient(180deg, var(--midnight-blue) 0%, #0a0f1e 100%);
             overflow: hidden;
-            padding: 80px 20px;
         }
 
         .final-section::before {
@@ -520,177 +470,127 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at 30% 80%, rgba(255,145,77,0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 20%, rgba(255,200,87,0.1) 0%, transparent 40%);
-            pointer-events: none;
-        }
-
-        .final-stars {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            background: 
+                radial-gradient(ellipse at 50% 100%, rgba(255, 145, 77, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(255, 200, 87, 0.05) 0%, transparent 50%);
             pointer-events: none;
         }
 
         .final-content {
+            max-width: 700px;
             position: relative;
             z-index: 10;
-            max-width: 700px;
-            text-align: center;
         }
 
-        .final-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            color: var(--golden-light);
-            margin-bottom: 40px;
-            opacity: 0;
-        }
-
-        .final-content p {
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            line-height: 2.2;
-            color: rgba(248,249,250,0.85);
-            margin-bottom: 25px;
+        .final-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             font-weight: 300;
+            line-height: 2.2;
+            color: rgba(248, 249, 250, 0.8);
+            margin-bottom: 2rem;
             opacity: 0;
             transform: translateY(20px);
         }
 
-        .final-content p.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 1s ease;
+        .final-text p {
+            margin-bottom: 1.5rem;
         }
 
-        .final-ocean {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-        }
-
-        /* ===== CLOSING SECTION ===== */
-        .closing {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: var(--midnight-blue);
-            position: relative;
-            padding: 80px 20px;
-        }
-
-        .closing::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at center, rgba(255,145,77,0.08) 0%, transparent 70%);
-        }
-
-        .closing-content {
-            position: relative;
-            z-index: 10;
-            max-width: 600px;
-        }
-
-        .closing-quote {
-            font-family: 'Playfair Display', serif;
+        .final-closing {
+            font-family: 'Cormorant Garamond', serif;
             font-size: clamp(1.3rem, 3vw, 1.8rem);
-            line-height: 2;
-            color: var(--soft-white);
             font-style: italic;
+            font-weight: 300;
+            color: var(--golden-light);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 200, 87, 0.2);
             opacity: 0;
-            transition: opacity 2s ease;
+            transform: translateY(20px);
         }
 
-        .closing-quote.visible {
-            opacity: 1;
-        }
-
-        .closing-signature {
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0;
-            transition: opacity 2s ease 1s;
-        }
-
-        .closing-signature.visible {
-            opacity: 1;
-        }
-
-        .closing-icons {
-            margin-top: 30px;
+        .footer-icons {
+            margin-top: 3rem;
             font-size: 1.5rem;
             opacity: 0;
-            transition: opacity 2s ease 1.5s;
+            letter-spacing: 10px;
         }
 
-        .closing-icons.visible {
-            opacity: 0.6;
+        /* ===== DECORATIVE ELEMENTS ===== */
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
         }
 
-        /* ===== FOOTER ===== */
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: var(--midnight-blue);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.3);
-            font-size: 0.8rem;
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 145, 77, 0.15);
+            top: 10%;
+            right: -100px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(29, 53, 87, 0.4);
+            bottom: 20%;
+            left: -150px;
+            animation: float 25s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -30px); }
+            66% { transform: translate(-20px, 20px); }
+        }
+
+        /* ===== SECTION DIVIDERS ===== */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 145, 77, 0.3), transparent);
+            margin: 0;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .chapter-card {
-                padding: 35px 25px;
+            .story-section {
+                padding: 4rem 1.5rem;
             }
-
-            .progress-line {
-                width: 15px;
+            .player-card {
+                padding: 1.5rem;
             }
-
-            .progress-dot {
-                width: 10px;
-                height: 10px;
-            }
-        }
-
-        /* Pulse animation for active chapter */
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255,145,77,0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(255,145,77,0); }
-        }
-
-        .chapter-card.active-chapter {
-            border-color: rgba(255,145,77,0.3);
         }
     </style>
 <base target="_blank">
 </head>
 <body>
 
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <!-- ===== LANDING PAGE ===== -->
-    <section class="landing" id="home">
+    <section class="landing" id="landing">
+        <div class="landing-bg"></div>
         <div class="stars" id="stars"></div>
+        <div class="wave-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
 
         <div class="landing-content">
-            <h1>Journey Through My Feelings</h1>
-            <p class="subtitle">
+            <h1 class="landing-title">Journey Through My Feelings</h1>
+            <p class="landing-subtitle">
                 Sebuah perjalanan yang dimulai dari kenyamanan, tumbuh menjadi harapan, 
                 dan belajar menerima apa pun akhirnya.
             </p>
@@ -698,474 +598,405 @@
         </div>
 
         <div class="scroll-indicator">
-            <span>Scroll</span>
-            <div class="mouse"></div>
-        </div>
-
-        <div class="ocean">
-            <div class="wave"></div>
-            <div class="wave"></div>
-            <div class="wave"></div>
+            <span></span>
+            <p>Scroll</p>
         </div>
     </section>
 
-    <!-- ===== PROGRESS BAR ===== -->
-    <div class="progress-section" id="progress">
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar">
-                <!-- Generated by JS -->
-            </div>
-            <div class="progress-text">
-                Bab <span id="currentChapter">1</span> / 10
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== PLAYLIST STORY SECTIONS ===== -->
-    <div class="story-container">
-
-        <!-- Chapter 1 -->
-        <section class="chapter" id="chapter1" data-chapter="1">
-            <div class="chapter-card">
-                <span class="decoration">🌅</span>
-                <div class="chapter-number">Bab 1</div>
-                <h3 class="chapter-title">Glue Song</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 1 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter1">
+        <div class="floating-orb orb-1"></div>
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 1</div>
+                <h2 class="story-title">Glue Song</h2>
+                <p class="story-narrative">
                     Semuanya terasa sederhana. Namun perlahan, kehadiranmu menjadi bagian dari hari-hariku.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Glue Song</h4>
-                            <p>beabadoobee</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=400&fit=crop" alt="Glue Song" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/y1cBhJLNNXU?si=KOgoLLNPFjr6vapY" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Glue Song</div>
+                    <div class="song-artist">beabadoobee</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 2 -->
-        <section class="chapter" id="chapter2" data-chapter="2">
-            <div class="chapter-card">
-                <span class="decoration">✨</span>
-                <div class="chapter-number">Bab 2</div>
-                <h3 class="chapter-title">Until I Found You</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 2 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter2">
+        <div class="floating-orb orb-2"></div>
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 2</div>
+                <h2 class="story-title">Until I Found You</h2>
+                <p class="story-narrative">
                     Aku mulai merasa bahwa kamu berbeda dari yang lain.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Until I Found You</h4>
-                            <p>Stephen Sanchez</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=400&fit=crop" alt="Until I Found You" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/GxldQ9eX2wo?si=zHAQ3N0fWelvcl7x" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Until I Found You</div>
+                    <div class="song-artist">Stephen Sanchez</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 3 -->
-        <section class="chapter" id="chapter3" data-chapter="3">
-            <div class="chapter-card">
-                <span class="decoration">📖</span>
-                <div class="chapter-number">Bab 3</div>
-                <h3 class="chapter-title">Turning Page</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 3 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter3">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 3</div>
+                <h2 class="story-title">Turning Page</h2>
+                <p class="story-narrative">
                     Perasaan itu tumbuh tanpa kusadari.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Turning Page</h4>
-                            <p>Sleeping At Last</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Turning Page" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/-hb2tecD13s?si=63BGoZ2Aoks98TTV" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Turning Page</div>
+                    <div class="song-artist">Sleeping At Last</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 4 -->
-        <section class="chapter" id="chapter4" data-chapter="4">
-            <div class="chapter-card">
-                <span class="decoration">🌙</span>
-                <div class="chapter-number">Bab 4</div>
-                <h3 class="chapter-title">Multo</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 4 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter4">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 4</div>
+                <h2 class="story-title">Multo</h2>
+                <p class="story-narrative">
                     Aku mulai takut kehilangan seseorang yang bahkan belum sepenuhnya kumiliki.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Multo</h4>
-                            <p>Cup of Joe</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&h=400&fit=crop" alt="Multo" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/Rht8rS4cR1s?si=eX3Z-J9aCgoALBMo" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Multo</div>
+                    <div class="song-artist">Cup of Joe</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 5 -->
-        <section class="chapter" id="chapter5" data-chapter="5">
-            <div class="chapter-card">
-                <span class="decoration">💛</span>
-                <div class="chapter-number">Bab 5</div>
-                <h3 class="chapter-title">Yellow</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 5 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter5">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 5</div>
+                <h2 class="story-title">Yellow</h2>
+                <p class="story-narrative">
                     Di mataku, kamu selalu memiliki cahaya yang berbeda.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Yellow</h4>
-                            <p>Coldplay</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=400&h=400&fit=crop" alt="Yellow" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/yKNxeF4KMsY?si=r34Ro9UglE65Iq7h" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Yellow</div>
+                    <div class="song-artist">Coldplay</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 6 -->
-        <section class="chapter" id="chapter6" data-chapter="6">
-            <div class="chapter-card">
-                <span class="decoration">🪞</span>
-                <div class="chapter-number">Bab 6</div>
-                <h3 class="chapter-title">Anti Hero</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 6 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter6">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 6</div>
+                <h2 class="story-title">Anti-Hero</h2>
+                <p class="story-narrative">
                     Aku mulai mempertanyakan diriku sendiri dan segala kekuranganku.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Anti Hero</h4>
-                            <p>Miftar Suganda</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=400&fit=crop" alt="Anti-Hero" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/07qofDUkU3s?si=Or1mbPKatA0jLlbF" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Anti-Hero</div>
+                    <div class="song-artist">Taylor Swift</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 7 -->
-        <section class="chapter" id="chapter7" data-chapter="7">
-            <div class="chapter-card">
-                <span class="decoration">💫</span>
-                <div class="chapter-number">Bab 7</div>
-                <h3 class="chapter-title">I Love You So</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 7 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter7">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 7</div>
+                <h2 class="story-title">I Love You So</h2>
+                <p class="story-narrative">
                     Perasaan itu tetap ada meskipun tidak selalu memiliki kepastian.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>I Love You So</h4>
-                            <p>The Walters</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1504198266287-1659872e6590?w=400&h=400&fit=crop" alt="I Love You So" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/NwFVSclD_uc?si=8hFqzYA2GQ5Kzb5U" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">I Love You So</div>
+                    <div class="song-artist">The Walters</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 8 -->
-        <section class="chapter" id="chapter8" data-chapter="8">
-            <div class="chapter-card">
-                <span class="decoration">🌊</span>
-                <div class="chapter-number">Bab 8</div>
-                <h3 class="chapter-title">To The Bone</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 8 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter8">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 8</div>
+                <h2 class="story-title">To The Bone</h2>
+                <p class="story-narrative">
                     Aku menyayangimu lebih dalam daripada yang mampu kujelaskan.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>To The Bone</h4>
-                            <p>Pamungkas</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&h=400&fit=crop" alt="To The Bone" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/oIYWenB637c?si=thik9_Sr-X6Z__Ig" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">To The Bone</div>
+                    <div class="song-artist">Pamungkas</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 9 -->
-        <section class="chapter" id="chapter9" data-chapter="9">
-            <div class="chapter-card">
-                <span class="decoration">🕊️</span>
-                <div class="chapter-number">Bab 9</div>
-                <h3 class="chapter-title">Let It All Go</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 9 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter9">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 9</div>
+                <h2 class="story-title">Let It All Go</h2>
+                <p class="story-narrative">
                     Jika memang harus melepaskan, aku ingin melakukannya dengan hati yang baik.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Let It All Go</h4>
-                            <p>Birdy & Rhodes</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=400&fit=crop" alt="Let It All Go" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/6u0DGIh3wLA?si=yo_xq7oKdkkQ5Y90" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Let It All Go</div>
+                    <div class="song-artist">Birdy & Rhodes</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Chapter 10 -->
-        <section class="chapter" id="chapter10" data-chapter="10">
-            <div class="chapter-card">
-                <span class="decoration">🪐</span>
-                <div class="chapter-number">Bab 10</div>
-                <h3 class="chapter-title">Saturn</h3>
-                <p class="chapter-narrative">
+    <!-- ===== CHAPTER 10 ===== -->
+    <div class="section-divider"></div>
+    <section class="story-section" id="chapter10">
+        <div class="story-container">
+            <div class="story-content">
+                <div class="story-number">Bab 10</div>
+                <h2 class="story-title">Saturn</h2>
+                <p class="story-narrative">
                     Apa pun akhirnya, aku tetap bersyukur pernah mengenalmu.
                 </p>
-                <div class="music-player">
-                    <div class="player-header">
-                        <div class="album-cover">🎵</div>
-                        <div class="track-info">
-                            <h4>Saturn</h4>
-                            <p>SZA</p>
-                        </div>
+            </div>
+            <div class="story-player">
+                <div class="player-card">
+                    <div class="album-art">
+                        <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&h=400&fit=crop" alt="Saturn" loading="lazy">
                     </div>
-                    <iframe class="spotify-embed" 
-                        src="https://youtu.be/V2G8ESoDXm8?si=oFYB0UQLkVjoW_WC" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy">
-                    </iframe>
+                    <div class="song-title">Saturn</div>
+                    <div class="song-artist">Sleeping At Last</div>
+                    <div class="spotify-embed-container">
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1iOeWez9MVQlL6Q9w4i69M?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <!-- ===== FINAL STORY SECTION ===== -->
+    <div class="section-divider"></div>
     <section class="final-section" id="final">
-        <div class="final-stars" id="finalStars"></div>
-
         <div class="final-content">
-            <h2 id="finalTitle">Senja dan Laut</h2>
-
-            <p class="final-para">Senja itu datang seperti biasa, perlahan menghapus terang dari langit.</p>
-
-            <p class="final-para">Di antara suara ombak dan angin laut, aku berdiri sendiri memandangi matahari yang turun ke ufuk barat.</p>
-
-            <p class="final-para">Ada banyak hal yang ingin kusampaikan, tetapi tak semuanya bisa diucapkan. Kadang laut menjadi tempat terbaik untuk menyimpan cerita yang terlalu berat dibawa pulang.</p>
-
-            <p class="final-para">Aku teringat seseorang. Seseorang yang pernah membuat hari-hariku terasa lebih hangat, seperti cahaya senja yang kini perlahan memudar di hadapanku.</p>
-
-            <p class="final-para">Aku tidak tahu apakah takdir akan mempertemukan kami lagi atau tidak.</p>
-
-            <p class="final-para">Namun seperti matahari yang tenggelam hari ini dan kembali terbit esok pagi, aku memilih untuk tetap berharap.</p>
-
-            <p class="final-para">Bukan berharap secara berlebihan, melainkan percaya bahwa apa yang memang ditakdirkan untukku akan menemukan jalannya sendiri.</p>
-
-            <p class="final-para">Sementara itu, aku akan tetap melangkah, membawa kenangan baik yang pernah ada, ditemani suara ombak dan langit senja yang menjadi saksi bahwa aku pernah menyimpan perasaan sedalam ini.</p>
-        </div>
-
-        <div class="final-ocean">
-            <div class="wave"></div>
-            <div class="wave"></div>
-            <div class="wave"></div>
+            <div class="final-text">
+                <p>Senja itu datang seperti biasa, perlahan menghapus terang dari langit.</p>
+                <p>Di antara suara ombak dan angin laut, aku berdiri sendiri memandangi matahari yang turun ke ufuk barat.</p>
+                <p>Ada banyak hal yang ingin kusampaikan, tetapi tak semuanya bisa diucapkan. Kadang laut menjadi tempat terbaik untuk menyimpan cerita yang terlalu berat dibawa pulang.</p>
+                <p>Aku teringat seseorang. Seseorang yang pernah membuat hari-hariku terasa lebih hangat, seperti cahaya senja yang kini perlahan memudar di hadapanku.</p>
+                <p>Aku tidak tahu apakah takdir akan mempertemukan kami lagi atau tidak.</p>
+                <p>Namun seperti matahari yang tenggelam hari ini dan kembali terbit esok pagi, aku memilih untuk tetap berharap.</p>
+                <p>Bukan berharap secara berlebihan, melainkan percaya bahwa apa yang memang ditakdirkan untukku akan menemukan jalannya sendiri.</p>
+                <p>Sementara itu, aku akan tetap melangkah, membawa kenangan baik yang pernah ada, ditemani suara ombak dan langit senja yang menjadi saksi bahwa aku pernah menyimpan perasaan sedalam ini.</p>
+            </div>
+            <div class="final-closing">
+                Jika pada akhirnya aku bisa bersamamu kembali, aku berharap kali ini kita bisa tetap berjalan bersama.
+            </div>
+            <div class="footer-icons">
+                🌅 🌊 ✨
+            </div>
         </div>
     </section>
-
-    <!-- ===== CLOSING SECTION ===== -->
-    <section class="closing" id="closing">
-        <div class="closing-content">
-            <p class="closing-quote">
-                "Jika pada akhirnya aku bisa bersamamu kembali,<br>
-                aku berharap kali ini kita bisa tetap berjalan bersama."
-            </p>
-            <div class="closing-signature">— Dari Senja, untukmu</div>
-            <div class="closing-icons">🌅 🌊 ✨</div>
-        </div>
-    </section>
-
-    <footer>
-        Journey Through My Feelings &mdash; Sebuah arsip digital yang tersimpan dalam senja dan ombak.
-    </footer>
 
     <script>
-        // ===== GENERATE STARS =====
-        function createStars(containerId, count) {
-            const container = document.getElementById(containerId);
-            for (let i = 0; i < count; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-                star.style.setProperty('--opacity', Math.random() * 0.7 + 0.3);
-                star.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(star);
-            }
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ===== CREATE STARS =====
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            starsContainer.appendChild(star);
         }
 
-        createStars('stars', 80);
-        createStars('finalStars', 60);
+        // ===== LANDING ANIMATIONS =====
+        const landingTl = gsap.timeline({ delay: 0.5 });
+        landingTl
+            .to('.landing-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' })
+            .to('.landing-subtitle', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.7')
+            .to('.btn-start', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+            .to('.scroll-indicator', { opacity: 1, duration: 1 }, '-=0.3');
 
         // ===== PROGRESS BAR =====
-        const chapters = [
-            { id: 'chapter1', title: 'Glue Song' },
-            { id: 'chapter2', title: 'Until I Found You' },
-            { id: 'chapter3', title: 'Turning Page' },
-            { id: 'chapter4', title: 'Multo' },
-            { id: 'chapter5', title: 'Yellow' },
-            { id: 'chapter6', title: 'Anti Hero' },
-            { id: 'chapter7', title: 'I Love You So' },
-            { id: 'chapter8', title: 'To The Bone' },
-            { id: 'chapter9', title: 'Let It All Go' },
-            { id: 'chapter10', title: 'Saturn' }
-        ];
-
-        const progressBar = document.getElementById('progressBar');
-        const currentChapterEl = document.getElementById('currentChapter');
-
-        chapters.forEach((ch, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'progress-dot';
-            dot.dataset.title = ch.title;
-            dot.dataset.chapter = index + 1;
-            dot.addEventListener('click', () => {
-                document.getElementById(ch.id).scrollIntoView({ behavior: 'smooth' });
-            });
-            progressBar.appendChild(dot);
-
-            if (index < chapters.length - 1) {
-                const line = document.createElement('div');
-                line.className = 'progress-line';
-                progressBar.appendChild(line);
+        gsap.to('#progressBar', {
+            width: '100%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 0.3
             }
         });
 
-        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
-        const observerOptions = {
-            threshold: 0.3,
-            rootMargin: '-50px'
-        };
+        // ===== STORY SECTION ANIMATIONS =====
+        document.querySelectorAll('.story-section').forEach((section, index) => {
+            const number = section.querySelector('.story-number');
+            const title = section.querySelector('.story-title');
+            const narrative = section.querySelector('.story-narrative');
+            const player = section.querySelector('.player-card');
 
-        const chapterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const card = entry.target.querySelector('.chapter-card');
-                    card.classList.add('visible');
-
-                    // Update progress
-                    const chapterNum = parseInt(entry.target.dataset.chapter);
-                    updateProgress(chapterNum);
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 75%',
+                    end: 'center center',
+                    toggleActions: 'play none none reverse'
                 }
             });
-        }, observerOptions);
 
-        document.querySelectorAll('.chapter').forEach(chapter => {
-            chapterObserver.observe(chapter);
+            tl.to(number, { opacity: 1, duration: 0.6, ease: 'power2.out' })
+              .to(title, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
+              .to(narrative, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+              .to(player, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' }, '-=0.6');
         });
 
-        function updateProgress(activeChapter) {
-            currentChapterEl.textContent = activeChapter;
-
-            const dots = document.querySelectorAll('.progress-dot');
-            const lines = document.querySelectorAll('.progress-line');
-
-            dots.forEach((dot, index) => {
-                dot.classList.remove('active', 'completed');
-                if (index + 1 === activeChapter) {
-                    dot.classList.add('active');
-                } else if (index + 1 < activeChapter) {
-                    dot.classList.add('completed');
-                }
-            });
-
-            lines.forEach((line, index) => {
-                line.classList.remove('completed');
-                if (index + 1 < activeChapter) {
-                    line.classList.add('completed');
-                }
-            });
-        }
-
         // ===== FINAL SECTION ANIMATIONS =====
-        const finalObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const title = document.getElementById('finalTitle');
-                    const paragraphs = entry.target.querySelectorAll('.final-para');
-
-                    title.style.opacity = '1';
-                    title.style.transition = 'opacity 1.5s ease';
-
-                    paragraphs.forEach((p, index) => {
-                        setTimeout(() => {
-                            p.classList.add('visible');
-                        }, 300 + (index * 400));
-                    });
+        const finalTexts = document.querySelectorAll('.final-text p');
+        finalTexts.forEach((text, i) => {
+            gsap.to(text, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: text,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
                 }
             });
-        }, { threshold: 0.2 });
+        });
 
-        finalObserver.observe(document.querySelector('.final-section'));
+        gsap.to('.final-closing', {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.final-closing',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            }
+        });
 
-        // ===== CLOSING SECTION ANIMATIONS =====
-        const closingObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    document.querySelector('.closing-quote').classList.add('visible');
-                    document.querySelector('.closing-signature').classList.add('visible');
-                    document.querySelector('.closing-icons').classList.add('visible');
+        gsap.to('.footer-icons', {
+            opacity: 1,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '.footer-icons',
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // ===== PARALLAX EFFECTS =====
+        gsap.utils.toArray('.floating-orb').forEach(orb => {
+            gsap.to(orb, {
+                y: -100,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: orb.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
                 }
             });
-        }, { threshold: 0.5 });
-
-        closingObserver.observe(document.querySelector('.closing'));
+        });
 
         // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1173,20 +1004,16 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // ===== PARALLAX EFFECT FOR STARS =====
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const stars = document.querySelectorAll('.star');
-            stars.forEach((star, index) => {
-                const speed = 0.2 + (index % 5) * 0.05;
-                star.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+        // ===== SPOTIFY IFRAME API (Optional Enhancement) =====
+        // This can be expanded to control playback across chapters
+        // For now, individual iframes allow independent playback
+
+        console.log('Journey Through My Feelings - Ready');
     </script>
 </body>
 </html>
