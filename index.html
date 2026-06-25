@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <style>
         :root {
             --sunset-orange: #FF914D;
@@ -17,8 +16,8 @@
             --ocean-blue: #1D3557;
             --midnight-blue: #0B132B;
             --soft-white: #F8F9FA;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
@@ -70,11 +69,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, 
+            background: linear-gradient(160deg, 
                 var(--midnight-blue) 0%, 
-                var(--ocean-blue) 40%, 
-                #2a4066 70%, 
-                #3d5a80 100%);
+                var(--ocean-blue) 35%, 
+                #1a2a4a 60%, 
+                #2d4a6e 100%);
             z-index: 1;
         }
 
@@ -86,8 +85,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(ellipse at 20% 80%, rgba(255, 145, 77, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(255, 200, 87, 0.2) 0%, transparent 50%);
+                radial-gradient(ellipse at 15% 85%, rgba(255, 145, 77, 0.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 15%, rgba(255, 200, 87, 0.15) 0%, transparent 50%);
             z-index: 2;
         }
 
@@ -117,13 +116,13 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Wave Animation at Bottom */
+        /* Wave Animation */
         .wave-container {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 180px;
             z-index: 3;
             overflow: hidden;
         }
@@ -134,16 +133,22 @@
             left: 0;
             width: 200%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23F8F9FA' fill-opacity='0.05' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23F8F9FA' fill-opacity='0.04' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
             background-size: 50% 100%;
-            animation: wave-move 15s linear infinite;
+            animation: wave-move 18s linear infinite;
         }
 
         .wave:nth-child(2) {
-            opacity: 0.5;
-            animation-duration: 20s;
+            opacity: 0.4;
+            animation-duration: 25s;
             animation-direction: reverse;
-            bottom: 10px;
+            bottom: 15px;
+        }
+
+        .wave:nth-child(3) {
+            opacity: 0.2;
+            animation-duration: 30s;
+            bottom: 30px;
         }
 
         @keyframes wave-move {
@@ -160,7 +165,7 @@
 
         .landing-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
             font-weight: 300;
             font-style: italic;
             color: var(--soft-white);
@@ -168,25 +173,26 @@
             opacity: 0;
             transform: translateY(30px);
             letter-spacing: 1px;
+            text-shadow: 0 2px 40px rgba(255, 145, 77, 0.2);
         }
 
         .landing-subtitle {
             font-family: 'Inter', sans-serif;
             font-size: clamp(0.95rem, 2vw, 1.15rem);
             font-weight: 300;
-            color: rgba(248, 249, 250, 0.75);
+            color: rgba(248, 249, 250, 0.7);
             margin-bottom: 3rem;
-            line-height: 1.8;
+            line-height: 1.9;
             opacity: 0;
             transform: translateY(20px);
-            max-width: 500px;
+            max-width: 520px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .btn-start {
             display: inline-block;
-            padding: 1rem 2.5rem;
+            padding: 1.1rem 2.8rem;
             background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
             color: var(--midnight-blue);
             font-family: 'Inter', sans-serif;
@@ -199,45 +205,62 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             transform: translateY(20px);
-            box-shadow: 0 4px 20px rgba(255, 145, 77, 0.3);
+            box-shadow: 0 4px 25px rgba(255, 145, 77, 0.35);
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-start::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-start:hover::before {
+            left: 100%;
         }
 
         .btn-start:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(255, 145, 77, 0.5);
+            box-shadow: 0 8px 35px rgba(255, 145, 77, 0.5);
         }
 
         .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
             opacity: 0;
-            animation: bounce 2s infinite;
+            animation: bounce 2.5s infinite ease-in-out;
         }
 
         .scroll-indicator span {
             display: block;
             width: 1px;
-            height: 40px;
+            height: 50px;
             background: linear-gradient(to bottom, var(--golden-light), transparent);
             margin: 0 auto;
         }
 
         .scroll-indicator p {
             font-size: 0.7rem;
-            color: rgba(248, 249, 250, 0.5);
-            margin-top: 8px;
-            letter-spacing: 2px;
+            color: rgba(248, 249, 250, 0.45);
+            margin-top: 10px;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+            40% { transform: translateX(-50%) translateY(-12px); }
+            60% { transform: translateX(-50%) translateY(-6px); }
         }
 
         /* ===== PROGRESS BAR ===== */
@@ -246,8 +269,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
+            height: 3px;
+            background: rgba(255, 255, 255, 0.04);
             z-index: 1000;
         }
 
@@ -256,6 +279,69 @@
             background: linear-gradient(90deg, var(--sunset-orange), var(--golden-light));
             width: 0%;
             transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(255, 145, 77, 0.3);
+        }
+
+        /* ===== CHAPTER INDICATOR ===== */
+        .chapter-nav {
+            position: fixed;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .chapter-nav.visible {
+            opacity: 1;
+        }
+
+        .chapter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .chapter-dot.active {
+            background: var(--sunset-orange);
+            box-shadow: 0 0 10px rgba(255, 145, 77, 0.5);
+            transform: scale(1.3);
+        }
+
+        .chapter-dot:hover {
+            background: rgba(255, 145, 77, 0.6);
+        }
+
+        .chapter-dot::before {
+            content: attr(data-label);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            letter-spacing: 1px;
+        }
+
+        .chapter-dot:hover::before {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .chapter-nav { display: none; }
         }
 
         /* ===== STORY SECTIONS ===== */
@@ -270,7 +356,7 @@
         }
 
         .story-container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             display: grid;
             grid-template-columns: 1fr;
@@ -281,7 +367,7 @@
         @media (min-width: 768px) {
             .story-container {
                 grid-template-columns: 1fr 1fr;
-                gap: 4rem;
+                gap: 5rem;
             }
         }
 
@@ -297,34 +383,58 @@
 
         .story-number {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--sunset-orange);
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .story-number::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 145, 77, 0.4), transparent);
+            max-width: 80px;
         }
 
         .story-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
             font-weight: 300;
             color: var(--soft-white);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             opacity: 0;
             transform: translateY(20px);
+            letter-spacing: -0.5px;
         }
 
         .story-narrative {
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             font-weight: 300;
-            color: rgba(248, 249, 250, 0.7);
-            line-height: 1.9;
+            color: rgba(248, 249, 250, 0.65);
+            line-height: 2;
             font-style: italic;
             opacity: 0;
             transform: translateY(20px);
-            border-left: 2px solid rgba(255, 145, 77, 0.3);
-            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255, 145, 77, 0.25);
+            padding-left: 1.8rem;
+            position: relative;
+        }
+
+        .story-narrative::before {
+            content: '"';
+            position: absolute;
+            left: -0.3rem;
+            top: -0.8rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: rgba(255, 145, 77, 0.2);
+            line-height: 1;
         }
 
         .story-player {
@@ -340,13 +450,20 @@
         .player-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.2rem;
             position: relative;
             overflow: hidden;
             opacity: 0;
             transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         .player-card::before {
@@ -356,27 +473,30 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 145, 77, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 145, 77, 0.08) 0%, transparent 60%);
             pointer-events: none;
         }
 
         .album-art {
             width: 100%;
             aspect-ratio: 1;
-            border-radius: 12px;
+            border-radius: 16px;
             background: linear-gradient(135deg, var(--ocean-blue), var(--midnight-blue));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .album-art::after {
             content: '♪';
             font-size: 4rem;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.08);
+            position: absolute;
+            z-index: 1;
         }
 
         .album-art img {
@@ -386,11 +506,17 @@
             position: absolute;
             top: 0;
             left: 0;
+            z-index: 2;
+            transition: transform 0.6s ease;
+        }
+
+        .player-card:hover .album-art img {
+            transform: scale(1.05);
         }
 
         .song-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: var(--soft-white);
             margin-bottom: 0.3rem;
@@ -398,42 +524,72 @@
 
         .song-artist {
             font-size: 0.85rem;
-            color: rgba(248, 249, 250, 0.5);
-            margin-bottom: 1.5rem;
+            color: rgba(248, 249, 250, 0.45);
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.5px;
         }
 
-        .play-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
+        .youtube-embed-container {
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .youtube-embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border: none;
-            color: var(--midnight-blue);
-            font-size: 1.2rem;
-            cursor: pointer;
+        }
+
+        .youtube-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.8), rgba(11, 19, 43, 0.9));
+            cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 1rem;
         }
 
-        .play-btn:hover {
+        .youtube-placeholder:hover {
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.9), rgba(11, 19, 43, 1));
+        }
+
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sunset-orange), var(--golden-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--midnight-blue);
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 145, 77, 0.4);
+        }
+
+        .youtube-placeholder:hover .play-icon {
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 145, 77, 0.4);
+            box-shadow: 0 6px 30px rgba(255, 145, 77, 0.6);
         }
 
-        .spotify-embed-container {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-top: 1rem;
-        }
-
-        .spotify-embed-container iframe {
-            width: 100%;
-            height: 80px;
-            border: none;
+        .play-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-left: 3px;
         }
 
         /* Alternate Layouts */
@@ -459,9 +615,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 6rem 2rem;
+            padding: 8rem 2rem;
             position: relative;
-            background: linear-gradient(180deg, var(--midnight-blue) 0%, #0a0f1e 100%);
+            background: linear-gradient(180deg, var(--midnight-blue) 0%, #070c1a 100%);
             overflow: hidden;
         }
 
@@ -473,90 +629,93 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(ellipse at 50% 100%, rgba(255, 145, 77, 0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(255, 200, 87, 0.05) 0%, transparent 50%);
+                radial-gradient(ellipse at 50% 100%, rgba(255, 145, 77, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(255, 200, 87, 0.04) 0%, transparent 50%);
             pointer-events: none;
         }
 
         .final-content {
-            max-width: 700px;
+            max-width: 680px;
             position: relative;
             z-index: 10;
         }
 
-        .final-text {
+        .final-text p {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-size: clamp(1.05rem, 2.3vw, 1.35rem);
             font-weight: 300;
-            line-height: 2.2;
-            color: rgba(248, 249, 250, 0.8);
-            margin-bottom: 2rem;
+            line-height: 2.3;
+            color: rgba(248, 249, 250, 0.75);
+            margin-bottom: 1.8rem;
             opacity: 0;
             transform: translateY(20px);
-        }
-
-        .final-text p {
-            margin-bottom: 1.5rem;
         }
 
         .final-closing {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-size: clamp(1.2rem, 2.8vw, 1.7rem);
             font-style: italic;
             font-weight: 300;
             color: var(--golden-light);
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 200, 87, 0.2);
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 200, 87, 0.15);
             opacity: 0;
             transform: translateY(20px);
+            line-height: 1.8;
         }
 
         .footer-icons {
-            margin-top: 3rem;
-            font-size: 1.5rem;
+            margin-top: 4rem;
+            font-size: 1.6rem;
             opacity: 0;
-            letter-spacing: 10px;
+            letter-spacing: 15px;
+            animation: gentle-float 4s ease-in-out infinite;
+        }
+
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         /* ===== DECORATIVE ELEMENTS ===== */
         .floating-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(100px);
             pointer-events: none;
             z-index: 1;
         }
 
         .orb-1 {
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 145, 77, 0.15);
-            top: 10%;
-            right: -100px;
-            animation: float 20s infinite ease-in-out;
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 145, 77, 0.12);
+            top: 5%;
+            right: -120px;
+            animation: float 22s infinite ease-in-out;
         }
 
         .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: rgba(29, 53, 87, 0.4);
-            bottom: 20%;
-            left: -150px;
-            animation: float 25s infinite ease-in-out reverse;
+            width: 450px;
+            height: 450px;
+            background: rgba(29, 53, 87, 0.35);
+            bottom: 15%;
+            left: -180px;
+            animation: float 28s infinite ease-in-out reverse;
         }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0); }
-            33% { transform: translate(30px, -30px); }
-            66% { transform: translate(-20px, 20px); }
+            33% { transform: translate(40px, -40px); }
+            66% { transform: translate(-25px, 25px); }
         }
 
         /* ===== SECTION DIVIDERS ===== */
         .section-divider {
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 145, 77, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 145, 77, 0.25), transparent);
             margin: 0;
         }
 
@@ -568,15 +727,72 @@
             .player-card {
                 padding: 1.5rem;
             }
+            .final-section {
+                padding: 5rem 1.5rem;
+            }
+        }
+
+        /* ===== LOADING STATE ===== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--midnight-blue);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--golden-light);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
     </style>
 <base target="_blank">
 </head>
 <body>
 
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text">Memuat perjalanan...</div>
+    </div>
+
     <!-- Progress Bar -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Chapter Navigation Dots -->
+    <div class="chapter-nav" id="chapterNav">
+        <div class="chapter-dot" data-target="landing" data-label="Awal"></div>
+        <div class="chapter-dot" data-target="chapter1" data-label="Bab 1"></div>
+        <div class="chapter-dot" data-target="chapter2" data-label="Bab 2"></div>
+        <div class="chapter-dot" data-target="chapter3" data-label="Bab 3"></div>
+        <div class="chapter-dot" data-target="chapter4" data-label="Bab 4"></div>
+        <div class="chapter-dot" data-target="chapter5" data-label="Bab 5"></div>
+        <div class="chapter-dot" data-target="chapter6" data-label="Bab 6"></div>
+        <div class="chapter-dot" data-target="chapter7" data-label="Bab 7"></div>
+        <div class="chapter-dot" data-target="chapter8" data-label="Bab 8"></div>
+        <div class="chapter-dot" data-target="chapter9" data-label="Bab 9"></div>
+        <div class="chapter-dot" data-target="chapter10" data-label="Bab 10"></div>
+        <div class="chapter-dot" data-target="final" data-label="Penutup"></div>
     </div>
 
     <!-- ===== LANDING PAGE ===== -->
@@ -584,6 +800,7 @@
         <div class="landing-bg"></div>
         <div class="stars" id="stars"></div>
         <div class="wave-container">
+            <div class="wave"></div>
             <div class="wave"></div>
             <div class="wave"></div>
         </div>
@@ -603,7 +820,7 @@
         </div>
     </section>
 
-    <!-- ===== CHAPTER 1 ===== -->
+    <!-- ===== CHAPTER 1: Glue Song ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter1">
         <div class="floating-orb orb-1"></div>
@@ -622,15 +839,19 @@
                     </div>
                     <div class="song-title">Glue Song</div>
                     <div class="song-artist">beabadoobee</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/y1cBhJLNNXU?si=yveUXjp4GT67xaT4" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="y1cBhJLNNXU">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'y1cBhJLNNXU')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 2 ===== -->
+    <!-- ===== CHAPTER 2: Until I Found You ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter2">
         <div class="floating-orb orb-2"></div>
@@ -649,15 +870,19 @@
                     </div>
                     <div class="song-title">Until I Found You</div>
                     <div class="song-artist">Stephen Sanchez</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/GhQxrCrVSyw?si=VG-n4iBAFIkARbyy" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="GhQxrCrVSyw">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'GhQxrCrVSyw')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 3 ===== -->
+    <!-- ===== CHAPTER 3: Turning Page ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter3">
         <div class="story-container">
@@ -675,15 +900,19 @@
                     </div>
                     <div class="song-title">Turning Page</div>
                     <div class="song-artist">Sleeping At Last</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/-hb2tecD13s?si=lHcQWDflvPufZuTQ" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="-hb2tecD13s">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, '-hb2tecD13s')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 4 ===== -->
+    <!-- ===== CHAPTER 4: Multo ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter4">
         <div class="story-container">
@@ -701,15 +930,19 @@
                     </div>
                     <div class="song-title">Multo</div>
                     <div class="song-artist">Cup of Joe</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/Rht8rS4cR1s?si=pRmR1f8KWgdUIaoK" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="Rht8rS4cR1s">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'Rht8rS4cR1s')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 5 ===== -->
+    <!-- ===== CHAPTER 5: Yellow ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter5">
         <div class="story-container">
@@ -727,15 +960,19 @@
                     </div>
                     <div class="song-title">Yellow</div>
                     <div class="song-artist">Coldplay</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/yKNxeF4KMsY?si=DXY3DzZTOjfHmHj0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="yKNxeF4KMsY">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'yKNxeF4KMsY')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 6 ===== -->
+    <!-- ===== CHAPTER 6: Anti-Hero ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter6">
         <div class="story-container">
@@ -753,15 +990,19 @@
                     </div>
                     <div class="song-title">Anti-Hero</div>
                     <div class="song-artist">Miftar Suganda</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/07qofDUkU3s?si=7qSbvqNjEIKz7dWR" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="07qofDUkU3s">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, '07qofDUkU3s')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 7 ===== -->
+    <!-- ===== CHAPTER 7: I Love You So ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter7">
         <div class="story-container">
@@ -779,15 +1020,19 @@
                     </div>
                     <div class="song-title">I Love You So</div>
                     <div class="song-artist">The Walters</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/NwFVSclD_uc?si=TMFxATYs3lf1Qlh4" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="NwFVSclD_uc">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'NwFVSclD_uc')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 8 ===== -->
+    <!-- ===== CHAPTER 8: To The Bone ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter8">
         <div class="story-container">
@@ -805,15 +1050,19 @@
                     </div>
                     <div class="song-title">To The Bone</div>
                     <div class="song-artist">Pamungkas</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/oIYWenB637c?si=jm45sJxINyOr7WRB" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="oIYWenB637c">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'oIYWenB637c')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 9 ===== -->
+    <!-- ===== CHAPTER 9: Let It All Go ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter9">
         <div class="story-container">
@@ -831,15 +1080,19 @@
                     </div>
                     <div class="song-title">Let It All Go</div>
                     <div class="song-artist">Birdy & Rhodes</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/6u0DGIh3wLA?si=3pKQ3eGYhFsj_z-V" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="6u0DGIh3wLA">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, '6u0DGIh3wLA')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CHAPTER 10 ===== -->
+    <!-- ===== CHAPTER 10: Saturn ===== -->
     <div class="section-divider"></div>
     <section class="story-section" id="chapter10">
         <div class="story-container">
@@ -857,8 +1110,12 @@
                     </div>
                     <div class="song-title">Saturn</div>
                     <div class="song-artist">SZA</div>
-                    <div class="spotify-embed-container">
-                        <iframe style="border-radius:12px" src="https://youtu.be/V2G8ESoDXm8?si=F9e1V7BFTbt03MsJ" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="youtube-embed-container" data-video="V2G8ESoDXm8">
+                        <div class="youtube-placeholder" onclick="loadYouTube(this, 'V2G8ESoDXm8')">
+                            <div class="play-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -892,25 +1149,35 @@
         // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger);
 
+        // ===== LOADING OVERLAY =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 800);
+        });
+
         // ===== CREATE STARS =====
         const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            star.style.animationDuration = (2 + Math.random() * 4) + 's';
+            const size = 1 + Math.random() * 2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
             starsContainer.appendChild(star);
         }
 
         // ===== LANDING ANIMATIONS =====
-        const landingTl = gsap.timeline({ delay: 0.5 });
+        const landingTl = gsap.timeline({ delay: 1 });
         landingTl
-            .to('.landing-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' })
-            .to('.landing-subtitle', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.7')
-            .to('.btn-start', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-            .to('.scroll-indicator', { opacity: 1, duration: 1 }, '-=0.3');
+            .to('.landing-title', { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' })
+            .to('.landing-subtitle', { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' }, '-=0.8')
+            .to('.btn-start', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+            .to('.scroll-indicator', { opacity: 1, duration: 1 }, '-=0.4');
 
         // ===== PROGRESS BAR =====
         gsap.to('#progressBar', {
@@ -924,6 +1191,46 @@
             }
         });
 
+        // ===== CHAPTER NAVIGATION =====
+        const chapterNav = document.getElementById('chapterNav');
+        const dots = document.querySelectorAll('.chapter-dot');
+        const sections = ['landing', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'chapter6', 'chapter7', 'chapter8', 'chapter9', 'chapter10', 'final'];
+
+        // Show nav after scrolling past landing
+        ScrollTrigger.create({
+            trigger: '#chapter1',
+            start: 'top center',
+            onEnter: () => chapterNav.classList.add('visible'),
+            onLeaveBack: () => chapterNav.classList.remove('visible')
+        });
+
+        // Update active dot
+        sections.forEach((id, index) => {
+            ScrollTrigger.create({
+                trigger: `#${id}`,
+                start: 'top center',
+                end: 'bottom center',
+                onEnter: () => updateActiveDot(index),
+                onEnterBack: () => updateActiveDot(index)
+            });
+        });
+
+        function updateActiveDot(index) {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Click to navigate
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const target = document.getElementById(dot.dataset.target);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
         // ===== STORY SECTION ANIMATIONS =====
         document.querySelectorAll('.story-section').forEach((section, index) => {
             const number = section.querySelector('.story-number');
@@ -934,16 +1241,16 @@
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
-                    start: 'top 75%',
+                    start: 'top 70%',
                     end: 'center center',
                     toggleActions: 'play none none reverse'
                 }
             });
 
-            tl.to(number, { opacity: 1, duration: 0.6, ease: 'power2.out' })
-              .to(title, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
-              .to(narrative, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-              .to(player, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' }, '-=0.6');
+            tl.to(number, { opacity: 1, duration: 0.7, ease: 'power2.out' })
+              .to(title, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5')
+              .to(narrative, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+              .to(player, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.7');
         });
 
         // ===== FINAL SECTION ANIMATIONS =====
@@ -952,7 +1259,7 @@
             gsap.to(text, {
                 opacity: 1,
                 y: 0,
-                duration: 0.8,
+                duration: 0.9,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: text,
@@ -965,7 +1272,7 @@
         gsap.to('.final-closing', {
             opacity: 1,
             y: 0,
-            duration: 1.2,
+            duration: 1.4,
             ease: 'power3.out',
             scrollTrigger: {
                 trigger: '.final-closing',
@@ -976,7 +1283,7 @@
 
         gsap.to('.footer-icons', {
             opacity: 1,
-            duration: 1,
+            duration: 1.2,
             scrollTrigger: {
                 trigger: '.footer-icons',
                 start: 'top 90%',
@@ -987,13 +1294,13 @@
         // ===== PARALLAX EFFECTS =====
         gsap.utils.toArray('.floating-orb').forEach(orb => {
             gsap.to(orb, {
-                y: -100,
+                y: -120,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: orb.parentElement,
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: 1
+                    scrub: 1.5
                 }
             });
         });
@@ -1009,9 +1316,28 @@
             });
         });
 
-        // ===== SPOTIFY IFRAME API (Optional Enhancement) =====
-        // This can be expanded to control playback across chapters
-        // For now, individual iframes allow independent playback
+        // ===== YOUTUBE LAZY LOADING =====
+        function loadYouTube(placeholder, videoId) {
+            const container = placeholder.parentElement;
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+
+            placeholder.style.opacity = '0';
+            setTimeout(() => {
+                placeholder.remove();
+                container.appendChild(iframe);
+            }, 300);
+        }
 
         console.log('Journey Through My Feelings - Ready');
     </script>
